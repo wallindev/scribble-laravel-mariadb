@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
+// All Articles
 Route::get('/articles', function () {
     $articles = Article::all();
     return response()->json($articles);
 });
 
+// All users
 Route::get('/users', function () {
     $users = User::all();
     return response()->json($users);
 });
+
+// One Article
+Route::get('/articles/{id}', function (string $id) {
+    $article = Article::find($id);
+    return response()->json($article);
+})->where('id', '[0-9]+');
