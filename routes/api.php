@@ -26,3 +26,9 @@ Route::get('/articles/{id}', function (string $id) {
     $article = Article::find($id);
     return response()->json($article);
 })->where('id', '[0-9]+');
+
+// One User
+Route::get('/users/{id}', function (string $id) {
+    $user = User::find($id);
+    return response()->json($user);
+})->where('id', '[0-9]+');
