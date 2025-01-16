@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -9,7 +10,17 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable {
   /** @use HasFactory<\Database\Factories\UserFactory> */
+
+  // Traits
   use HasApiTokens, HasFactory, Notifiable;
+
+  // Constants (if any)
+  // protected const string SOME_CONSTANT = 'value';
+
+  // Private or Protected Instance Variables/Properties
+  private $id;
+  private $firstName;
+  private $lastName;
 
   // TODO: Should we use Default Attribute Values ($attributes)?
   // Consideration: You can define default values for model attributes
