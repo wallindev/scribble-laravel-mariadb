@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,7 +9,17 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Article extends Model {
   /** @use HasFactory<\Database\Factories\ArticleFactory> */
+
+  // Traits
   use HasApiTokens, HasFactory, Notifiable;
+
+  // Constants (if any)
+  // protected const string SOME_CONSTANT = 'value';
+
+  // Private or Protected Instance Variables/Properties
+  private $id;
+  private $title;
+  private $content;
 
   // TODO: Should we use Default Attribute Values ($attributes)?
   // Consideration: You can define default values for model attributes
