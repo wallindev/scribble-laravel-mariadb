@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-abstract class AdminController
-{
-    //
+abstract class AdminController {
+  //
 }
