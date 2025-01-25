@@ -11,7 +11,7 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/admin', [Admin\HomeController::class, 'index']);
 
 // List users
-Route::get('/admin/users', [Admin\UserController::class, 'index']);
+Route::get('/admin/users', [Admin\UserController::class, 'index'])->name('users.index');
 
 // Show user
 Route::get('/admin/users/{id}', [Admin\UserController::class, 'show'])->name('users.show');
