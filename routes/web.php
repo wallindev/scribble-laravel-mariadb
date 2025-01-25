@@ -16,6 +16,9 @@ Route::get('/admin/users', [Admin\UserController::class, 'index']);
 // Show user
 Route::get('/admin/users/{id}', [Admin\UserController::class, 'show'])->name('users.show');
 
+// Edit user
+Route::get('/admin/users/{id}/edit', [Admin\UserController::class, 'edit'])->name('users.edit');
+
 // Route::get(
 //   '/user/profile',
 //   [UserProfileController::class, 'show']
