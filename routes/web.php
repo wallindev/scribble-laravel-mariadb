@@ -19,6 +19,9 @@ Route::get('/admin/users/{id}', [Admin\UserController::class, 'show'])->name('us
 // Edit user
 Route::get('/admin/users/{id}/edit', [Admin\UserController::class, 'edit'])->name('users.edit');
 
+// Remove/delete user
+Route::delete('/admin/users/{id}', [Admin\UserController::class, 'destroy'])->name('users.destroy');
+
 // Route::get(
 //   '/user/profile',
 //   [UserProfileController::class, 'show']
