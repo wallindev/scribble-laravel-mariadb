@@ -13,6 +13,9 @@ Route::get('/admin', [Admin\HomeController::class, 'index']);
 // List users
 Route::get('/admin/users', [Admin\UserController::class, 'index']);
 
+// Show user
+Route::get('/admin/users/{id}', [Admin\UserController::class, 'show'])->name('users.show');
+
 // Route::get(
 //   '/user/profile',
 //   [UserProfileController::class, 'show']
