@@ -12,7 +12,7 @@
 <section>
 <form action="{{ route('users.update', $user->id) }}" method="POST">
   @csrf
-  @method('PUT')
+  @method('PATCH')
   <table>
     <tbody>
       <tr>
