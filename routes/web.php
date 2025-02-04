@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 // Start Page
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 // Admin Start Page
-Route::get('/admin', [Admin\HomeController::class, 'index']);
+Route::get('/admin', [Admin\HomeController::class, 'index'])->name('admin.index');
 
 // List users
 Route::get('/admin/users', [Admin\UserController::class, 'index'])->name('users.index');
