@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/img/scribble-bold.svg" />
+    <style>
+      @font-face {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url(/fonts/Roboto-VariableFont_wdth,wght.ttf) format('truetype');
+      }
+    </style>
   @if (file_exists('vite.config.js') || file_exists(public_path('hot')))
     @vite(['resources/css/app.module.styl', 'resources/js/app.js'])
   @else
