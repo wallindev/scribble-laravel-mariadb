@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<h2>Admin Start</h2>
+<h2>Admin Start Page</h2>
 <table>
   <tbody>
   @foreach ($links as $uri => $text)
