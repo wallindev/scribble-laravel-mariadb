@@ -21,3 +21,10 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Editor extensions
+.VSCodeCounter/**
+
+resources/fonts/**
+TODO.txt
+*.bak
