@@ -1,9 +1,9 @@
 @font-face {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(../fonts/Roboto-VariableFont_wdth,wght.ttf) format('truetype');
+  font-family Roboto
+  font-style normal
+  font-weight 100 900
+  font-display swap
+  src url(../fonts/Roboto-VariableFont_wdth,wght.ttf) format('truetype')
 }
 
 /*
@@ -115,6 +115,13 @@ td.button
 td.button--right
   text-align right
 
+table.show
+  border-spacing 1rem
+
+.show .content
+  white-space normal
+  box-shadow 0 .25rem 1.5rem purple
+
 label
   font-weight 600
 
@@ -127,9 +134,15 @@ input, textarea
   color #fff
   border-radius .25rem
   padding .25rem .5rem
-  box-shadow 0 4px 24px purple
+  box-shadow 0 .25rem 1.5rem purple
   text-shadow none
   outline 2px solid rgba(255, 255, 255, .24)
+
+input:hover, textarea:hover
+  outline-color rgba(255, 255, 255, .2)
+
+input:focus, textarea:focus
+  outline-color #007bff
 
 input:not([type=checkbox]):not([type=radio]), textarea
   width 300px
@@ -145,12 +158,6 @@ input[type=checkbox], input[type=radio]
 
 input[type=radio]
   border-radius 50%
-
-input[type=checkbox]:hover, input[type=radio]:hover
-  outline-color rgba(255, 255, 255, .20)
-
-input[type=checkbox]:focus, input[type=radio]:focus
-  outline-color #007bff
 
 input[type=checkbox]:after, input[type=radio]:after
   content ''
@@ -173,15 +180,39 @@ input[type=radio]:checked:after
   // height auto
   // height 3lh + .5rem
 
-input:not([type=checkbox]):not([type=radio]):focus, textarea:focus
-  outline-color #007bff
+button, .link-button
+  font-family inherit
+  font-size inherit
+  display inline-block
+  line-height 1.5
+  border 0 none
+  outline 0 none
+  padding .25rem .5rem
+  background-color #007bff
+  color white
+  box-shadow 0 .25rem 1.5rem purple
+  text-shadow none
+  text-decoration none
+  border-radius .25rem
+  cursor pointer
+  transition background-color 0.1s
+  white-space nowrap
+
+button:hover, .link-button:hover,
+button:focus, .link-button:focus
+  background-color #0056b3
+
+button:active, .link-button:active
+  background-color #007bff
 
 h2
-  margin-left: .75rem;
+  margin-left .75rem
 
 a, a:visited
   color #fff
   text-decoration none
+  border 0 none
+  outline 0 none
 
 a:hover
   color #ccc
@@ -202,24 +233,3 @@ ul, li
 
 ul
   padding-left 1rem
-
-button, .link-button
-  font-family inherit
-  font-size inherit
-  display inline-block
-  line-height 1.5
-  border 0 none
-  padding .25rem .5rem
-  background-color #007bff
-  color white
-  text-decoration none
-  border-radius .25rem
-  cursor pointer
-  transition background-color 0.1s
-  white-space: nowrap;
-
-button:hover, .link-button:hover
-  background-color #0056b3
-
-button:active, .link-button:active
-  background-color #007bff
