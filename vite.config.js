@@ -4,7 +4,7 @@ import laravel from 'laravel-vite-plugin'
 export default defineConfig({
   plugins: [
     laravel({
-      input: ['resources/css/app.module.styl', 'resources/js/app.js'],
+      input: ['resources/css/app.styl', 'resources/js/app.js'],
       refresh: true,
     }),
   ],
@@ -18,12 +18,17 @@ export default defineConfig({
       },
     }, */
     port: 5000,
-    // allowedHosts: ['127.0.0.1', '192.168.32.2', 'grunge', 'grungecorp', 'grunge.dev', 'grungecorp.dev'],
+    allowedHosts: ['localhost', '127.0.0.1', '192.168.32.2'],
     watch: {
       ignored: ['**/api-data/*.*', './TODO.txt'],
     },
   },
-  stylus: {
+  /* stylus: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  }, */
+  css: {
     modules: {
       localsConvention: 'camelCase',
     },
