@@ -14,12 +14,10 @@ return new class extends Migration {
       $table->string('firstname');
       $table->string('lastname');
       $table->string('email')->unique();
-      $table->string('password', 128);
-      $table->string('salt', 32);
+      $table->string('password', 60);
       $table->boolean('email_verified')->default(false);
-      $table->timestamp('email_verified_at')->nullable();
-      $table->rememberToken();
       $table->boolean('is_admin')->default(false);
+      $table->rememberToken();
       $table->timestamps();
     });
 
