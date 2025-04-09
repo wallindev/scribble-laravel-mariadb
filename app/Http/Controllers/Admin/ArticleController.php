@@ -93,4 +93,30 @@ class ArticleController extends AdminController {
     ];
     return view('admin.articles.create', compact('title', 'breadcrumbs'));
   }
+
+  public function store(ArticleRequest $request) {
+    $data = $request->validated();
+
+    $article = $this->articleRepository->createArticle($data);
+
+    // TODO: Add error handling like in update() method
+    return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+
+    // For API
+    // return response()->json($article, 201);
+  }
+
+  public function destroy($id) {
+    dump('ArticleController->destroy()');
+    dd("Article Id: $id");
+    $deleted = $this->articleRepository->deleteArticle($id);
+
+    // TODO: Add error handling like in update() method
+    // return redirect()->route('articles.index')->with('success', 'Article deleted successfully.');
+
+    // For API
+    // return $deleted ?
+    // response()->json(['message' => 'Article deleted successfully']) :
+    // response()->json(['message' => 'Article not found'], 404);
+  }
 }
