@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-abstract class AdminController {
-  //
+use App\Http\Controllers\Controller;
+
+abstract class AdminController extends Controller {
+  public function __construct() {
+    // dump('This is the AdminController __construct() function');
+  }
 }
