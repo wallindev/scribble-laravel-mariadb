@@ -2,31 +2,67 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\ArticleRequest;
+use App\Http\Resources\ArticleResource;
+use App\Interfaces\ArticleRepositoryInterface;
+use Illuminate\Http\Request;
 use App\Models\Article;
 
 class ArticleController extends AdminController {
-  public function index() {
-    $articles = Article::all();
-    return view('admin.articles.index', [
-      'title'    => 'Articles',
-      'articles' => $articles,
-    ]);
-    // return view('admin.articles.index', compact('articles'));
+  protected $articleRepository;
+
+  public function __construct(ArticleRepositoryInterface $articleRepository) {
+    // To call the parent class constructor (AdminController)
+    // parent::__construct();
+    $this->articleRepository = $articleRepository;
+  }
+
+  public function index(Request $request) {
+    $success = session('success');
+    $articles = $this->articleRepository->getAllArticles();
+
+    $title = 'Articles';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/articles' => 'Articles'
+    ];
+    return view('admin.articles.index', compact('success', 'articles', 'title', 'breadcrumbs'));
+
+    // For API
+    // return response()->json($users);
+    // if ($request->wantsJson()) {
+    //   return ArticleResource::collection($articles);
+    // }
   }
 
   public function show($id) {
-    $article = Article::findOrFail($id);
-    return view('admin.articles.show', [
-      'title'   => 'Show Article',
-      'article' => $article,
-    ]);
+    $success = session('success');
+    $article = $this->articleRepository->getArticleById($id);
+
+    $title = 'Show Article';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/articles' => 'Articles',
+      "/admin/articles/$id" => "Article $id"
+    ];
+    return view('admin.articles.show', compact('success', 'article', 'title', 'breadcrumbs'));
+
+    // For API
+    // return $article ? response()->json($article) : response()->json(['message' => 'Article not found'], 404);
   }
 
   public function edit($id) {
-    $article = Article::findOrFail($id);
-    return view('admin.articles.edit', [
-      'title'   => 'Edit Article',
-      'article' => $article,
-    ]);
+    $article = $this->articleRepository->getArticleById($id);
+    $title = 'Edit Article';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/articles' => 'Articles',
+      "/admin/articles/$id" => "Article $id",
+      "/admin/articles/$id/edit" => "Edit Article $id"
+    ];
+    return view('admin.articles.edit', compact('article', 'title', 'breadcrumbs'));
   }
 }
