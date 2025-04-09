@@ -65,4 +65,32 @@ class ArticleController extends AdminController {
     ];
     return view('admin.articles.edit', compact('article', 'title', 'breadcrumbs'));
   }
+
+  public function update(ArticleRequest $request, $id) {
+    $data = $request->validated();
+
+    $updated = $this->articleRepository->updateArticle($id, $data);
+
+    if ($updated) { // Update successful
+      return redirect()->route('articles.show', $id)->with('success', 'Article updated successfully!');
+    } else { // Update not successful
+      return back()->withErrors(['update' => 'Failed to update article. Please try again.']);
+    }
+
+    // For API
+    // return $updated ?
+    // response()->json(['message' => 'Article updated successfully']) :
+    // response()->json(['message' => 'Article not found'], 404);
+  }
+
+  public function create() {
+    $title = 'Create Article';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/articles' => 'Articles',
+      "/admin/articles/new" => 'Create Article'
+    ];
+    return view('admin.articles.create', compact('title', 'breadcrumbs'));
+  }
 }
