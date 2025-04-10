@@ -4,127 +4,126 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
-use App\Services\UserServiceInterface;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends AdminController {
-  protected $userService;
+  protected $userRepository;
 
-  public function __construct(UserServiceInterface $userService) {
-    // dd($this->userService);
-    // parent::__construct(); // Call the parent constructor if needed
-    $this->userService = $userService;
+  public function __construct(UserRepositoryInterface $userRepository) {
+    // To call the parent class constructor (AdminController)
+    // parent::__construct();
+    $this->userRepository = $userRepository;
   }
 
   public function index(Request $request) {
-    $users = $this->userService->getAllUsers();
-    // dump($users);
-    // dd($users);
+    $success = session('success');
+    $users = $this->userRepository->getAllUsers();
+
+    $title = 'Users';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/users' => 'Users'
+    ];
+    return view('admin.users.index', compact('success', 'users', 'title', 'breadcrumbs'));
+
     // For API
     // return response()->json($users);
-    if ($request->wantsJson()) {
-      return UserResource::collection($users);
-    }
-    // For GUI
-    return view('admin.users.index', [
-      'title' => 'Users',
-      'users' => $users,
-    ]);
-
-    // $title = 'Users';
-    // return view('admin.users.index', compact('title', 'users'));
+    // if ($request->wantsJson()) {
+    //   return UserResource::collection($users);
+    // }
   }
 
   public function show($id) {
-    // Session flash variable (destroyed after first use)
-    $successMessage = session('success');
-    $user           = $this->userService->getUserById($id);
+    $success = session('success');
+    $user = $this->userRepository->getUserById($id);
+
+    $title = 'Show User';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/users' => 'Users',
+      "/admin/users/$id" => "User $id"
+    ];
+    return view('admin.users.show', compact('success', 'user', 'title', 'breadcrumbs'));
+
     // For API
     // return $user ? response()->json($user) : response()->json(['message' => 'User not found'], 404);
-    // For GUI
-    return view('admin.users.show', [
-      'title'   => 'Show User',
-      'user'    => $user,
-      'success' => $successMessage,
-    ]);
   }
 
-  public function store(UserRequest $request) {
-    dd('UserController->store()');
-    // Get the validated data
-    $data = $request->validated();
-    // Proceed with storing the user
-
-    // $data = $request->validate([
-    //   'name' => 'required|string|max:255',
-    //   'email' => 'required|string|email|max:255|unique:users',
-    //   'password' => 'required|string|min:8',
-    // ]);
-
-    // $request->validate([
-    //   'name' => 'required|string|max:255',
-    //   'email' => 'required|email|max:255|unique:users,email,' . $id,
-    // ]);
-
-    // $user = User::create($request->all());
-    $user = $this->userService->createUser($data);
-    // For API
-    // return response()->json($user, 201);
-    // For GUI
-    return redirect()->route('users.index')->with('success', 'User created successfully.');
+  public function edit($id) {
+    $user = $this->userRepository->getUserById($id);
+    $title = 'Edit User';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/users' => 'Users',
+      "/admin/users/$id" => "User $id",
+      "/admin/users/$id/edit" => "Edit User $id"
+    ];
+    return view('admin.users.edit', compact('user', 'title', 'breadcrumbs'));
   }
 
   public function update(UserRequest $request, $id) {
-    dd('UserController->update()');
-    // dd($request);
-    // Get the validated data
     $data = $request->validated();
-    // $data = $request->validate([
-    //   'name' => 'sometimes|required|string|max:255',
-    //   'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
-    //   'password' => 'sometimes|required|string|min:8',
-    // ]);
 
-    // $request->validate([
-    //   'name' => 'required|string|max:255',
-    //   'email' => 'required|email|max:255|unique:users,email,' . $id,
-    // ]);
+    if (array_key_exists('password', $data))
+      $data = [...$data, 'password' => Hash::make($data['password'])];
+    if (!array_key_exists('email_verified', $data))
+      $data = [...$data, 'email_verified' => false];
+    if (!array_key_exists('is_admin', $data))
+      $data = [...$data, 'is_admin' => false];
 
-    // $user->name = $request->input('name');
-    // $user->email = $request->input('email');
-    // $user->save();
+    $updated = $this->userRepository->updateUser($id, $data);
 
-    $updated = $this->userService->updateUser($id, $data);
+    if ($updated) { // Update successful
+      return redirect()->route('users.show', $id)->with('success', 'User updated successfully!');
+    } else { // Update not successful
+      return back()->withErrors(['update' => 'Failed to update user. Please try again.']);
+    }
+
     // For API
     // return $updated ?
     // response()->json(['message' => 'User updated successfully']) :
     // response()->json(['message' => 'User not found'], 404);
-    // For GUI
-    return redirect()->route('users.show', $id)->with('success', 'User updated successfully!');
+  }
+
+  public function create() {
+    $title = 'Create User';
+    $breadcrumbs = [
+      ...$this->breadcrumbs,
+      '/admin' => 'Admin',
+      '/admin/users' => 'Users',
+      "/admin/users/new" => 'Create User'
+    ];
+    return view('admin.users.create', compact('title', 'breadcrumbs'));
+  }
+
+  public function store(UserRequest $request) {
+    $data = $request->validated();
+
+    $user = $this->userRepository->createUser([...$data, 'password' => Hash::make($data['password'])]);
+
+    // TODO: Add error handling like in update() method
+    return redirect()->route('users.index')->with('success', 'User created successfully.');
+
+    // For API
+    // return response()->json($user, 201);
   }
 
   public function destroy($id) {
-    // $user->delete();
-    $deleted = $this->userService->deleteUser($id);
+    dump('UserController->destroy()');
+    dd("User Id: $id");
+    $deleted = $this->userRepository->deleteUser($id);
+
+    // TODO: Add error handling like in update() method
+    // return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+
     // For API
     // return $deleted ?
     // response()->json(['message' => 'User deleted successfully']) :
     // response()->json(['message' => 'User not found'], 404);
-    // For GUI
-    return redirect()->route('users.index')->with('success', 'User deleted successfully.');
-  }
-
-  // Only for GUI
-  public function create() {
-    return view('admin.users.create');
-  }
-
-  // Only for GUI
-  public function edit($id) {
-    $user = $this->userService->getUserById($id);
-    return view('admin.users.edit', [
-      'title' => 'Edit User',
-      'user'  => $user,
-    ]);
   }
 }
