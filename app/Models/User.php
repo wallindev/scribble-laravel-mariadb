@@ -14,26 +14,21 @@ class User extends Authenticatable {
   // Traits
   use HasApiTokens, HasFactory, Notifiable;
 
-  // Constants (if any)
-  // protected const string SOME_CONSTANT = 'value';
-
-  // Private or Protected Instance Variables/Properties
-  private $id;
-  private $firstName;
-  private $lastName;
-
-  // TODO: Should we use Default Attribute Values ($attributes)?
-  // Consideration: You can define default values for model attributes
-  // in the $attributes property. These will be applied when a new model
-  // instance is created but hasn't been saved to the database yet.
-  // protected $attributes = [
-  //   'is_active' => false,
-  //   'settings' => 'default',
-  // ];
+  /**
+   *
+  // Default values for model attributes in the $attributes property.
+  // These will be applied when a new model instance is created but
+  // hasn't been saved to the database yet.
+   *
+   * @var list<string>
+   */
+  public $attributes = [
+    'email_verified' => false,
+    'is_admin' => false,
+  ];
 
   /**
    * Relations
-   *
    */
   public function articles()
   {
@@ -41,7 +36,10 @@ class User extends Authenticatable {
   }
 
   /**
-   * The attributes that are mass assignable.
+   *
+   // Specifies the attributes that
+   // are allowed to be mass assignable.
+   // Think of it as a whitelist.
    *
    * @var list<string>
    */
@@ -51,16 +49,34 @@ class User extends Authenticatable {
     'email',
     'password',
     'email_verified',
+    'is_admin',
   ];
 
   /**
-   * The attributes that should be hidden for serialization.
+   *
+   // Specifies the attributes that
+   // should not be mass assignable.
+   // Think of it as a blacklist.
+   *
+   * @var list<string>
+   */
+  protected $guarded = [
+    'id',
+    'remember_token',
+    'created_at',
+    'updated_at',
+  ];
+
+  /**
+   *
+   // The attributes that should be hidden for serialization.
+   // Controls the privacy and structure of your data when
+   // it's being presented or shared.
    *
    * @var list<string>
    */
   protected $hidden = [
     'password',
-    'salt',
     'remember_token',
   ];
 
@@ -73,7 +89,6 @@ class User extends Authenticatable {
     return [
       'password'          => 'hashed',
       'email_verified'    => 'boolean',
-      'email_verified_at' => 'datetime',
       'is_admin'          => 'boolean',
     ];
   }
