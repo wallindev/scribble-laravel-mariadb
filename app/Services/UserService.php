@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Interfaces\UserServiceInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -17,7 +18,7 @@ class UserService implements UserServiceInterface {
   }
 
   public function getUserById(int $id): ?User {
-    return User::find($id);
+    return User::findOrFail($id);
   }
 
   public function createUser(array $data): User {
@@ -34,9 +35,11 @@ class UserService implements UserServiceInterface {
     return $user ? $user->delete() : false;
   }
 
-  public function isAdmin(): bool {
+  /* public function isAdmin(int $id): bool {
     // TODO: How get is_admin from db? Implement in User model? Is '$this' referring to the model?
-    return false;
-    // return $this->is_admin;
-  }
+    $user = $this->getUserById($id);
+    dump('UserService, isAdmin() function, $user->is_admin:');
+    dump($user->is_admin);
+    return true;
+  } */
 }
