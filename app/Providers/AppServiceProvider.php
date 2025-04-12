@@ -8,10 +8,11 @@ class AppServiceProvider extends ServiceProvider {
   /**
    * Register any application services.
    */
-  public function register(): void {
-    // Register User Service Provider
-    $this->app->register(UserServiceProvider::class);
-  }
+public function register(): void {
+  // Register Service Providers
+  $this->app->register(RepositoryServiceProvider::class);
+  // $this->app->register(ServiceServiceProvider::class);
+}
 
   /**
    * Bootstrap any application services.
