@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Services;
+
+use App\Interfaces\ArticleServiceInterface;
+use App\Models\Article;
+use Illuminate\Database\Eloquent\Collection;
+
+class ArticleService implements ArticleServiceInterface {
+  // For API
+  // public function getAllArticles(): array
+  // For GUI
+  public function getAllArticles(): Collection {
+    // For API
+    // return Article::all()->toArray();
+    // For GUI
+    return Article::all();
+  }
+
+  public function getArticleById(int $id): ?Article {
+    return Article::findOrFail($id);
+  }
+
+  public function createArticle(array $data): Article {
+    return Article::create($data);
+  }
+
+  public function updateArticle(int $id, array $data): bool {
+    $article = $this->getArticleById($id);
+    return $article ? $article->update($data) : false;
+  }
+
+  public function deleteArticle(int $id): bool {
+    $article = $this->getArticleById($id);
+    return $article ? $article->delete() : false;
+  }
+}
