@@ -1,18 +1,62 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2>Edit Article</h2>
-    <form action="{{ route('admin.articles.update', $article->id) }}" method="POST">
-        @csrf
-        @method('PUT') <!-- Use PUT method for updating -->
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" value="{{ $article->title }}" required>
-        </div>
-        <div>
-            <label for="content">Content:</label>
-            <textarea id="content" name="content" required>{{ $article->content }}</textarea>
-        </div>
-        <button type="submit">Update Article</button>
-    </form>
+<h2>Edit Article</h2>
+@if ($errors->any())
+<div class="user-msg text-danger bg-dark">
+  <ul>
+  @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+  @endforeach
+  </ul>
+</div>
+@endif
+
+<section>
+<form action="{{ route('articles.update', $article->id) }}" method="POST">
+  @csrf
+  @method('PUT') <!-- PUT = Full update -->
+  <table>
+    <tbody>
+      <tr>
+        <td class="heading"><label for="title">Title</label>:</td>
+        <td class="content"><input type="text" id="title" name="title" value="{{ old('title') ?? $article->title }}" required></td>
+      </tr>
+      <tr>
+        <td class="heading"><label for="content">Content</label>:</td>
+        <td class="content"><textarea type="text" id="content" name="content" required>{{ old('content') ?? $article->content }}</textarea></td>
+      </tr>
+      <tr>
+        <td><label for="created_at">Created</label>:</td>
+        <td><span id="created_at">{{ longDateStr($article->created_at) }}</span></td>
+      </tr>
+      <tr>
+        <td><label for="updated_at">Updated</label>:</td>
+        <td><span id="updated_at">{{ longDateStr($article->updated_at) }}</span></td>
+      </tr>
+      <tr>
+        <td class="button"><button type="submit" class="link-button">Update Article</button></td>
+        <td class="button button--right"><a href="{{ route('articles.show', $article->id) }}" class="link-button secondary" role="button">Cancel</a></td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+</section>
 @endsection
+
+<script>
+  // Set height to scrollHeight plus the y padding
+  const handleInput = () => {
+    const textArea = document.getElementById('content')
+    adjustSize(textArea)
+  }
+  const adjustSize = (textArea) => {
+    textArea.style.height = 'auto';
+    textArea.style.height = `calc(${textArea.scrollHeight}px + ${getComputedStyle(textArea).paddingBlock})`
+  }
+  window.onload = () => {
+    const textArea = document.getElementById('content')
+    textArea.addEventListener('input', handleInput)
+    adjustSize(textArea)
+  }
+</script>
