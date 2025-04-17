@@ -1,9 +1,37 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2>Article Details</h2>
-    <p><strong>ID:</strong> {{ $article->id }}</p>
-    <p><strong>Title:</strong> {{ $article->title }}</p>
-    <p><strong>Content:</strong> {{ $article->content }}</p>
-    <a href="{{ route('admin.articles.edit', $article->id) }}">Edit Article</a>
+<h2>Article Details</h2>
+@if ($success)
+<div class="user-msg text-success bg-dark">
+  <p>{{ $success }}</p>
+</div>
+@endif
+<section>
+<table class="show">
+  <tbody>
+    <tr>
+      <td><strong>ID</strong>:</td><td>{{ $article->id }}</td>
+    </tr>
+    <tr>
+      <td><strong>Title</strong>:</td><td class="content">{{ $article->title }}</td>
+    </tr>
+    <tr>
+      <td><strong>Content</strong>:</td><td class="content">{!! newLineToBr($article->content) !!}</td>
+    </tr>
+    <tr>
+      <td><strong>Created</strong>:</td>
+      <td>{{ longDateStr($article->created_at) }}</td>
+    </tr>
+    <tr>
+      <td><strong>Updated</strong>:</td>
+      <td>{{ longDateStr($article->updated_at) }}</td>
+    </tr>
+    <tr>
+      <td class="button"><a href="{{ route('articles.edit', $article->id) }}" class="link-button" role="button">Edit Article</a></td>
+      <td class="button button--right"><a href="{{ route('articles.index') }}" class="link-button secondary" role="button">All Articles &raquo;</a></td>
+    </tr>
+  </tbody>
+</table>
+</section>
 @endsection
