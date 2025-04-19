@@ -23,8 +23,8 @@
       <td><a href="{{ $articleUrl }}">{{ $article->id }}</a></td>
       <td><a href="{{ $articleUrl }}">{{ $article->title }}</a></td>
       <td><a href="{{ $articleUrl }}">{{ contentStub($article->content) }}</a></td>
-      <td><a href="{{ $articleUrl }}" class="btn btn-dark btn-sm" role="button">Show</a></td>
-      <td><a href="{{ route('articles.edit', $article->id) }}" class="btn btn-dark btn-sm" role="button">Edit</a></td>
+      <td><a href="{{ $articleUrl }}" class="link-button" role="button">Show</a></td>
+      <td><a href="{{ route('articles.edit', $article->id) }}" class="link-button" role="button">Edit</a></td>
       <td>
         <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display:inline;">
           @csrf
