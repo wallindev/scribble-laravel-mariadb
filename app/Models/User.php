@@ -14,6 +14,10 @@ class User extends Authenticatable {
   // Traits
   use HasApiTokens, HasFactory, Notifiable;
 
+  public function fullName(): string {
+    return "$this->firstname $this->lastname";
+  }
+
   /**
    *
   // Default values for model attributes in the $attributes property.
