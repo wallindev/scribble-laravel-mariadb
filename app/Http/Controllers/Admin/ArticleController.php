@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ArticleResource;
 use App\Interfaces\ArticleRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Models\Article;
 
 class ArticleController extends AdminController {
   protected $articleRepository;
+  protected $userRepository;
 
-  public function __construct(ArticleRepositoryInterface $articleRepository) {
+  public function __construct(ArticleRepositoryInterface $articleRepository, UserRepositoryInterface $userRepository) {
     // To call the parent class constructor (AdminController)
     // parent::__construct();
     $this->articleRepository = $articleRepository;
+    $this->userRepository = $userRepository;
   }
 
   public function index(Request $request) {
@@ -91,7 +94,8 @@ class ArticleController extends AdminController {
       '/admin/articles' => 'Articles',
       "/admin/articles/new" => 'Create Article'
     ];
-    return view('admin.articles.create', compact('title', 'breadcrumbs'));
+    $users = $this->userRepository->getAllUsers();
+    return view('admin.articles.create', compact('title', 'breadcrumbs', 'users'));
   }
 
   public function store(ArticleRequest $request) {
