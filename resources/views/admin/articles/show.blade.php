@@ -10,14 +10,17 @@
 <section>
 <table class="show">
   <tbody>
+    <!--<tr>
+      <td><strong>ID</strong>:</td>
+      <td>{{ $article->id }}</td>
+    </tr>-->
     <tr>
-      <td><strong>ID</strong>:</td><td>{{ $article->id }}</td>
+      <td class="heading"><strong>Title</strong>:</td>
+      <td class="content"><div>{{ $article->title }}</div></td>
     </tr>
     <tr>
-      <td><strong>Title</strong>:</td><td class="content">{{ $article->title }}</td>
-    </tr>
-    <tr>
-      <td><strong>Content</strong>:</td><td class="content">{!! newLineToBr($article->content) !!}</td>
+      <td class="heading"><strong>Content</strong>:</td>
+      <td class="content"><div>{!! newLineToBr($article->content) !!}</div></td>
     </tr>
     <tr>
       <td><strong>Created</strong>:</td>
