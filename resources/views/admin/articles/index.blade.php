@@ -6,7 +6,7 @@
 <div class="text-primary"><p>{{ $success }}</p></div>
 @endif
 <section>
-<div style="margin: 1.5rem .5rem;"><a href="{{ route('users.create') }}">Create Article</a></div>
+<div style="margin: 1.5rem .5rem;"><a href="{{ route('articles.create') }}">Create Article</a></div>
 <table>
   <thead>
     <tr class="heading">
