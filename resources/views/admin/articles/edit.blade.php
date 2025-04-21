@@ -16,7 +16,7 @@
 <form action="{{ route('articles.update', $article->id) }}" method="POST">
   @csrf
   @method('PUT') <!-- PUT = Full update -->
-  <table>
+  <table class="show">
     <tbody>
       <tr>
         <td class="heading"><label for="title">Title</label>:</td>
@@ -46,13 +46,13 @@
 
 <script>
   // Set height to scrollHeight plus the y padding
-  const handleInput = () => {
-    const textArea = document.getElementById('content')
-    adjustSize(textArea)
-  }
   const adjustSize = (textArea) => {
     textArea.style.height = 'auto';
     textArea.style.height = `calc(${textArea.scrollHeight}px + ${getComputedStyle(textArea).paddingBlock})`
+  }
+  const handleInput = () => {
+    const textArea = document.getElementById('content')
+    adjustSize(textArea)
   }
   window.onload = () => {
     const textArea = document.getElementById('content')
