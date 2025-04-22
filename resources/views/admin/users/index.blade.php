@@ -21,7 +21,7 @@
     @php $userUrl = route('users.show', $user->id); @endphp
     <tr>
       <td><a href="{{ $userUrl }}">{{ $user->id }}</a></td>
-      <td><a href="{{ $userUrl }}">{{ $user->firstname }} {{ $user->lastname }}</a></td>
+      <td><a href="{{ $userUrl }}">{{ $user->fullName }}</a></td>
       <td><a href="{{ $userUrl }}">{{ $user->email }}</a></td>
       <td><a href="{{ $userUrl }}" class="link-button" role="button">Show</a></td>
       <td><a href="{{ route('users.edit', $user->id) }}" class="link-button" role="button">Edit</a></td>
