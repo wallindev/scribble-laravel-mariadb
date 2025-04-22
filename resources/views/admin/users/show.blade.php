@@ -14,7 +14,7 @@
       <td><strong>ID</strong>:</td><td>{{ $user->id }}</td>
     </tr>
     <tr>
-      <td><strong>Name</strong>:</td><td>{{ $user->firstname }} {{ $user->lastname }}</td>
+      <td><strong>Name</strong>:</td><td>{{ $user->fullName }}</td>
     </tr>
     <tr>
       <td><strong>Email</strong>:</td><td>{{ $user->email }}</td>
