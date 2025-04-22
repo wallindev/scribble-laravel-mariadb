@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,9 +16,25 @@ class User extends Authenticatable {
   // Traits
   use HasApiTokens, HasFactory, Notifiable;
 
-  public function fullName(): string {
-    return "$this->firstname $this->lastname";
+  // Access with $user->fullName
+  protected function fullName(): Attribute {
+    return Attribute::make(
+      get: fn () => "$this->firstname $this->lastname",
+      // get: fn ($_, $attributes) => "{$attributes['firstname']} {$attributes['lastname']}",
+      set: function ($value) {
+        $nameParts = explode(' ', $value);
+        return [
+          'firstname' => $nameParts[0] ?? null,
+          'lastname' => $nameParts[1] ?? null,
+        ];
+      },
+    );
   }
+
+  // Access with $user->fullName()
+  /* public function fullName(): string {
+    return "$this->firstname $this->lastname";
+  } */
 
   /**
    *
