@@ -9,6 +9,7 @@ class ArticleRequest extends FormRequest {
     $rules_arr = [
       'title' => 'required|string|max:255',
       'content' => 'required|string|max:65535',
+      'user_id' => 'required|integer|min:0|exists:users,id',
     ];
 
     // dump('$rules_arr:');
