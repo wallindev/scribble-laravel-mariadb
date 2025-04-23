@@ -30,7 +30,7 @@
         <td class="content">
           <select id="userId" name="userId">
           @foreach ($users as $user)
-            <option value="{{ $user->id }}" @selected($user->is_admin)>{{ $user->fullName() }} {{ $user->email }}</option>
+            <option value="{{ $user->id }}" @selected($user->is_admin)>{{ $user->fullName }}</option>
           @endforeach
           </select>
         </td>
