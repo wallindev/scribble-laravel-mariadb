@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Interfaces\UserRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends AdminController {
   protected $userRepository;
@@ -76,12 +78,12 @@ class UserController extends AdminController {
     if (!array_key_exists('is_admin', $data))
       $data = [...$data, 'is_admin' => false];
 
-    $updated = $this->userRepository->updateUser($id, $data);
-
-    if ($updated) { // Update successful
+    try {
+      $this->userRepository->updateUser($id, $data);
       return redirect()->route('users.show', $id)->with('success', 'User updated successfully!');
-    } else { // Update not successful
-      return back()->withErrors(['update' => 'Failed to update user. Please try again.']);
+    } catch (Exception $e) {
+      Log::error('Error updating user: ' . $e->getMessage());
+      return back()->withErrors(['update' => 'Failed to update the user. Please try again.']);
     }
 
     // For API
@@ -104,22 +106,26 @@ class UserController extends AdminController {
   public function store(UserRequest $request) {
     $data = $request->validated();
 
-    $user = $this->userRepository->createUser([...$data, 'password' => Hash::make($data['password'])]);
-
-    // TODO: Add error handling like in update() method
-    return redirect()->route('users.index')->with('success', 'User created successfully.');
+    try {
+      $this->userRepository->createUser([...$data, 'password' => Hash::make($data['password'])]);
+      return redirect()->route('users.index')->with('success', 'User created successfully.');
+    } catch (Exception $e) {
+      Log::error('Error creating user: ' . $e->getMessage());
+      return back()->withErrors(['create' => 'Failed to create the user. Please try again.']);
+    }
 
     // For API
     // return response()->json($user, 201);
   }
 
   public function destroy($id) {
-    dump('UserController->destroy()');
-    dd("User Id: $id");
-    $deleted = $this->userRepository->deleteUser($id);
-
-    // TODO: Add error handling like in update() method
-    // return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    try {
+      $this->userRepository->deleteUser($id);
+      return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    } catch (Exception $e) {
+      Log::error('Error deleting user: ' . $e->getMessage());
+      return back()->withErrors(['delete' => 'Failed to delete the user. Please try again.']);
+    }
 
     // For API
     // return $deleted ?
