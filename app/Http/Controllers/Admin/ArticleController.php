@@ -6,8 +6,9 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ArticleResource;
 use App\Interfaces\ArticleRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
-use App\Models\Article;
+use Illuminate\Support\Facades\Log;
 
 class ArticleController extends AdminController {
   protected $articleRepository;
@@ -66,18 +67,19 @@ class ArticleController extends AdminController {
       "/admin/articles/$id" => "Article $id",
       "/admin/articles/$id/edit" => "Edit Article $id"
     ];
-    return view('admin.articles.edit', compact('article', 'title', 'breadcrumbs'));
+    $users = $this->userRepository->getAllUsers();
+    return view('admin.articles.edit', compact('article', 'title', 'breadcrumbs', 'users'));
   }
 
   public function update(ArticleRequest $request, $id) {
     $data = $request->validated();
 
-    $updated = $this->articleRepository->updateArticle($id, $data);
-
-    if ($updated) { // Update successful
+    try {
+      $this->articleRepository->updateArticle($id, $data);
       return redirect()->route('articles.show', $id)->with('success', 'Article updated successfully!');
-    } else { // Update not successful
-      return back()->withErrors(['update' => 'Failed to update article. Please try again.']);
+    } catch (Exception $e) {
+      Log::error('Error updating article: ' . $e->getMessage());
+      return back()->withErrors(['update' => 'Failed to update the article. Please try again.']);
     }
 
     // For API
@@ -101,22 +103,26 @@ class ArticleController extends AdminController {
   public function store(ArticleRequest $request) {
     $data = $request->validated();
 
-    $article = $this->articleRepository->createArticle($data);
-
-    // TODO: Add error handling like in update() method
-    return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+    try {
+      $this->articleRepository->createArticle($data);
+      return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+    } catch (Exception $e) {
+      Log::error('Error creating article: ' . $e->getMessage());
+      return back()->withErrors(['create' => 'Failed to create the article. Please try again.']);
+    }
 
     // For API
     // return response()->json($article, 201);
   }
 
   public function destroy($id) {
-    dump('ArticleController->destroy()');
-    dd("Article Id: $id");
-    $deleted = $this->articleRepository->deleteArticle($id);
-
-    // TODO: Add error handling like in update() method
-    // return redirect()->route('articles.index')->with('success', 'Article deleted successfully.');
+    try {
+      $this->articleRepository->deleteArticle($id);
+      return redirect()->route('articles.index')->with('success', 'Article deleted successfully.');
+    } catch (Exception $e) {
+      Log::error('Error deleting article: ' . $e->getMessage());
+      return back()->withErrors(['delete' => 'Failed to delete the article. Please try again.']);
+    }
 
     // For API
     // return $deleted ?
