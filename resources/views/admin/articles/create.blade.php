@@ -28,7 +28,7 @@
       <tr>
         <td class="heading"><label for="user">User</label>:</td>
         <td class="content">
-          <select id="userId" name="userId">
+          <select id="user_id" name="user_id">
           @foreach ($users as $user)
             <option value="{{ $user->id }}" @selected($user->is_admin)>{{ $user->fullName }}</option>
           @endforeach
