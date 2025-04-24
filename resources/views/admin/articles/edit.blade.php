@@ -27,6 +27,16 @@
         <td class="content"><textarea type="text" id="content" name="content" required>{{ old('content') ?? $article->content }}</textarea></td>
       </tr>
       <tr>
+        <td class="heading"><label for="user">User</label>:</td>
+        <td class="content">
+          <select id="user_id" name="user_id">
+          @foreach ($users as $user)
+            <option value="{{ $user->id }}" @selected($article->user_id == $user->id)>{{ $user->fullName }}</option>
+          @endforeach
+          </select>
+        </td>
+      </tr>
+      <tr>
         <td><label for="created_at">Created</label>:</td>
         <td><span id="created_at">{{ longDateStr($article->created_at) }}</span></td>
       </tr>
