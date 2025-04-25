@@ -1,72 +1,90 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use Illuminate\Support\Facades\Route;
 
 // Start Page
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-// Admin Start Page
-Route::get('/admin', [Admin\HomeController::class, 'index'])->name('admin.index');
+Route::prefix('admin')->group(function () {
+  Route::middleware('guest:admin')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'show'])->name('login.show');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.login');
+  });
 
-/*
- * Users
- *
+  Route::middleware('admin')->group(function () {
+    // General logout post route
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+    // Admin Start Page
+    Route::get('/', [AdminHomeController::class, 'index'])->name('admin.index');
+
+    /*
+    * Users
+    *
+    */
+    // List users
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+
+    // Show user
+    Route::get('users/{id}', [UserController::class, 'show'])
+      ->where('id', '[0-9]+')->name('users.show');
+
+    // Edit user
+    Route::get('users/{id}/edit', [UserController::class, 'edit'])
+      ->where('id', '[0-9]+')->name('users.edit');
+
+    // Update user
+    Route::patch('users/{id}', [UserController::class, 'update'])
+      ->where('id', '[0-9]+')->name('users.update');
+
+    // Create user
+    Route::get('users/new', [UserController::class, 'create'])->name('users.create');
+
+    // Store user
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+
+    // Remove/delete user
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    /*
+    * Articles
+    *
+    */
+    // List articles
+    Route::get('articles', [ArticleController::class, 'index'])->name('articles.index');
+
+    // Show article
+    Route::get('articles/{id}', [ArticleController::class, 'show'])
+      ->where('id', '[0-9]+')->name('articles.show');
+
+    // Edit article
+    Route::get('articles/{id}/edit', [ArticleController::class, 'edit'])
+      ->where('id', '[0-9]+')->name('articles.edit');
+
+    // Update article
+    Route::put('articles/{id}', [ArticleController::class, 'update'])
+      ->where('id', '[0-9]+')->name('articles.update');
+
+    // Create article
+    Route::get('articles/new', [ArticleController::class, 'create'])->name('articles.create');
+
+    // Store article
+    Route::post('articles', [ArticleController::class, 'store'])->name('articles.store');
+
+    // Remove/delete article
+    Route::delete('articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+  });
+});
+
+/**
+ * Misc code
  */
-// List users
-Route::get('/admin/users', [Admin\UserController::class, 'index'])->name('users.index');
 
-// Show user
-Route::get('/admin/users/{id}', [Admin\UserController::class, 'show'])
-  ->where('id', '[0-9]+')->name('users.show');
-
-// Edit user
-Route::get('/admin/users/{id}/edit', [Admin\UserController::class, 'edit'])
-->where('id', '[0-9]+')->name('users.edit');
-
-// Update user
-Route::patch('/admin/users/{id}', [Admin\UserController::class, 'update'])
-->where('id', '[0-9]+')->name('users.update');
-
-// Create user
-Route::get('/admin/users/new', [Admin\UserController::class, 'create'])->name('users.create');
-
-// Store user
-Route::post('/admin/users', [Admin\UserController::class, 'store'])->name('users.store');
-
-// Remove/delete user
-Route::delete('/admin/users/{id}', [Admin\UserController::class, 'destroy'])->name('users.destroy');
-
-/*
- * Articles
- *
- */
-// List articles
-Route::get('/admin/articles', [Admin\ArticleController::class, 'index'])->name('articles.index');
-
-// Show article
-Route::get('/admin/articles/{id}', [Admin\ArticleController::class, 'show'])
-  ->where('id', '[0-9]+')->name('articles.show');
-
-// Edit article
-Route::get('/admin/articles/{id}/edit', [Admin\ArticleController::class, 'edit'])
-->where('id', '[0-9]+')->name('articles.edit');
-
-// Update article
-Route::put('/admin/articles/{id}', [Admin\ArticleController::class, 'update'])
-->where('id', '[0-9]+')->name('articles.update');
-
-// Create article
-Route::get('/admin/articles/new', [Admin\ArticleController::class, 'create'])->name('articles.create');
-
-// Store article
-Route::post('/admin/articles', [Admin\ArticleController::class, 'store'])->name('articles.store');
-
-// Remove/delete article
-Route::delete('/admin/articles/{id}', [Admin\ArticleController::class, 'destroy'])->name('articles.destroy');
-
- // Route::get(
+// Route::get(
 //   '/user/profile',
 //   [UserProfileController::class, 'show']
 // )->name('profile');
@@ -83,8 +101,8 @@ Route::delete('/admin/articles/{id}', [Admin\ArticleController::class, 'destroy'
 //     return view('index');
 // });
 
-Route::get('/greeting', function () {
-  return 'Hello World';
-});
+// Route::get('/greeting', function () {
+//   return 'Hello World';
+// });
 
-Route::view('/welcome', 'welcome');
+// Route::view('/welcome', 'welcome');
