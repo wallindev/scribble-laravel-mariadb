@@ -4,6 +4,18 @@ return [
 
   /*
   |--------------------------------------------------------------------------
+  | Authentication Redirect routes for middleware
+  |--------------------------------------------------------------------------
+  |
+  | Defines which routes to redirect to by the "auth" and "guest" middleware.
+  |
+  */
+  'redirect_users_to' => env('AUTH_REDIRECT_USERS_TO', 'admin.index'),
+  'redirect_guests_to' => env('AUTH_REDIRECT_GUESTS_TO', 'login.index'),
+  'redirect_after_login' => env('AUTH_REDIRECT_AFTER_LOGIN', 'home.index'),
+
+  /*
+  |--------------------------------------------------------------------------
   | Authentication Defaults
   |--------------------------------------------------------------------------
   |
