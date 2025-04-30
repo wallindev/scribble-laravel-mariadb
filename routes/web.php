@@ -6,19 +6,24 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use Illuminate\Support\Facades\Route;
 
-// Start Page
+// Start/Root Page, this is going to serve the React SPA (this is public, no restrictions)
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
+// Everything from "/admin" path and beyond
 Route::prefix('admin')->group(function () {
+  // Unauthenticated users ("guests" in the "admin" guard) have access
   Route::middleware('guest:admin')->group(function () {
-    Route::get('/login', [AdminAuthController::class, 'show'])->name('login.show');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.login');
+    Route::get('/login', [AuthController::class, 'index'])->name('auth.index');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
   });
 
-  Route::middleware('admin')->group(function () {
-    // General logout post route
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+  // Authenticated users that are NOT admin have access ("users" in the "admin" guard with is_admin=false)
+  Route::middleware('auth:admin')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+  });
 
+  // Authenticated users that ARE admin have access ("users" in the "admin" guard with is_admin=true)
+  Route::middleware(['auth:admin', 'admin'])->group(function () {
     // Admin Start Page
     Route::get('/', [AdminHomeController::class, 'index'])->name('admin.index');
 
@@ -31,15 +36,21 @@ Route::prefix('admin')->group(function () {
 
     // Show user
     Route::get('users/{id}', [UserController::class, 'show'])
-      ->where('id', '[0-9]+')->name('users.show');
+      // Set in app/Providers/AppServiceProvider.php instead
+      // ->where('id', '[0-9]+')
+      ->name('users.show');
 
     // Edit user
     Route::get('users/{id}/edit', [UserController::class, 'edit'])
-      ->where('id', '[0-9]+')->name('users.edit');
+    // Set in app/Providers/AppServiceProvider.php instead
+    // ->where('id', '[0-9]+')
+    ->name('users.edit');
 
     // Update user
     Route::patch('users/{id}', [UserController::class, 'update'])
-      ->where('id', '[0-9]+')->name('users.update');
+    // Set in app/Providers/AppServiceProvider.php instead
+    // ->where('id', '[0-9]+')
+    ->name('users.update');
 
     // Create user
     Route::get('users/new', [UserController::class, 'create'])->name('users.create');
@@ -48,7 +59,10 @@ Route::prefix('admin')->group(function () {
     Route::post('users', [UserController::class, 'store'])->name('users.store');
 
     // Remove/delete user
-    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])
+    // Set in app/Providers/AppServiceProvider.php instead
+    // ->where('id', '[0-9]+')
+    ->name('users.destroy');
 
     /*
     * Articles
@@ -59,15 +73,21 @@ Route::prefix('admin')->group(function () {
 
     // Show article
     Route::get('articles/{id}', [ArticleController::class, 'show'])
-      ->where('id', '[0-9]+')->name('articles.show');
+    // Set in app/Providers/AppServiceProvider.php instead
+    // ->where('id', '[0-9]+')
+    ->name('articles.show');
 
     // Edit article
     Route::get('articles/{id}/edit', [ArticleController::class, 'edit'])
-      ->where('id', '[0-9]+')->name('articles.edit');
+    // Set in app/Providers/AppServiceProvider.php instead
+    // ->where('id', '[0-9]+')
+    ->name('articles.edit');
 
     // Update article
     Route::put('articles/{id}', [ArticleController::class, 'update'])
-      ->where('id', '[0-9]+')->name('articles.update');
+    // Set in app/Providers/AppServiceProvider.php instead
+    // ->where('id', '[0-9]+')
+    ->name('articles.update');
 
     // Create article
     Route::get('articles/new', [ArticleController::class, 'create'])->name('articles.create');
@@ -76,9 +96,22 @@ Route::prefix('admin')->group(function () {
     Route::post('articles', [ArticleController::class, 'store'])->name('articles.store');
 
     // Remove/delete article
-    Route::delete('articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    Route::delete('articles/{id}', [ArticleController::class, 'destroy'])
+    // Set in app/Providers/AppServiceProvider.php instead
+    // ->where('id', '[0-9]+')
+    ->name('articles.destroy');
   });
+
+  // Catch-all for admin, to avoid "HTTP 404 Not Found" generic error page
+  Route::any('{any}', function () {
+    return redirect()->route('admin.index')->withErrors(['error' => 'Page does not exist.']);
+  })->where('any', '.*');
 });
+
+// Catch-all for root, to avoid "HTTP 404 Not Found" generic error page
+Route::any('{any}', function () {
+  return redirect()->route('home.index')->withErrors(['error' => 'Page does not exist.']);
+})->where('any', '.*');
 
 /**
  * Misc code
