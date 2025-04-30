@@ -29,28 +29,18 @@ Route::prefix('admin')->group(function () {
 
     /*
     * Users
-    *
     */
     // List users
     Route::get('users', [UserController::class, 'index'])->name('users.index');
 
     // Show user
-    Route::get('users/{id}', [UserController::class, 'show'])
-      // Set in app/Providers/AppServiceProvider.php instead
-      // ->where('id', '[0-9]+')
-      ->name('users.show');
+    Route::get('users/{id}', [UserController::class, 'show'])->name('users.show');
 
     // Edit user
-    Route::get('users/{id}/edit', [UserController::class, 'edit'])
-    // Set in app/Providers/AppServiceProvider.php instead
-    // ->where('id', '[0-9]+')
-    ->name('users.edit');
+    Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 
     // Update user
-    Route::patch('users/{id}', [UserController::class, 'update'])
-    // Set in app/Providers/AppServiceProvider.php instead
-    // ->where('id', '[0-9]+')
-    ->name('users.update');
+    Route::patch('users/{id}', [UserController::class, 'update'])->name('users.update');
 
     // Create user
     Route::get('users/new', [UserController::class, 'create'])->name('users.create');
@@ -59,35 +49,22 @@ Route::prefix('admin')->group(function () {
     Route::post('users', [UserController::class, 'store'])->name('users.store');
 
     // Remove/delete user
-    Route::delete('users/{id}', [UserController::class, 'destroy'])
-    // Set in app/Providers/AppServiceProvider.php instead
-    // ->where('id', '[0-9]+')
-    ->name('users.destroy');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
     /*
     * Articles
-    *
     */
     // List articles
     Route::get('articles', [ArticleController::class, 'index'])->name('articles.index');
 
     // Show article
-    Route::get('articles/{id}', [ArticleController::class, 'show'])
-    // Set in app/Providers/AppServiceProvider.php instead
-    // ->where('id', '[0-9]+')
-    ->name('articles.show');
+    Route::get('articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
 
     // Edit article
-    Route::get('articles/{id}/edit', [ArticleController::class, 'edit'])
-    // Set in app/Providers/AppServiceProvider.php instead
-    // ->where('id', '[0-9]+')
-    ->name('articles.edit');
+    Route::get('articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
 
     // Update article
-    Route::put('articles/{id}', [ArticleController::class, 'update'])
-    // Set in app/Providers/AppServiceProvider.php instead
-    // ->where('id', '[0-9]+')
-    ->name('articles.update');
+    Route::put('articles/{id}', [ArticleController::class, 'update'])->name('articles.update');
 
     // Create article
     Route::get('articles/new', [ArticleController::class, 'create'])->name('articles.create');
@@ -96,10 +73,7 @@ Route::prefix('admin')->group(function () {
     Route::post('articles', [ArticleController::class, 'store'])->name('articles.store');
 
     // Remove/delete article
-    Route::delete('articles/{id}', [ArticleController::class, 'destroy'])
-    // Set in app/Providers/AppServiceProvider.php instead
-    // ->where('id', '[0-9]+')
-    ->name('articles.destroy');
+    Route::delete('articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
   });
 
   // Catch-all for admin, to avoid "HTTP 404 Not Found" generic error page
@@ -112,30 +86,3 @@ Route::prefix('admin')->group(function () {
 Route::any('{any}', function () {
   return redirect()->route('home.index')->withErrors(['error' => 'Page does not exist.']);
 })->where('any', '.*');
-
-/**
- * Misc code
- */
-
-// Route::get(
-//   '/user/profile',
-//   [UserProfileController::class, 'show']
-// )->name('profile');
-
-// // Generating URLs...
-// $url = route('profile');
-
-// // Generating Redirects...
-// return redirect()->route('profile');
-
-// return to_route('profile');
-
-// Route::get('/', function () {
-//     return view('index');
-// });
-
-// Route::get('/greeting', function () {
-//   return 'Hello World';
-// });
-
-// Route::view('/welcome', 'welcome');
