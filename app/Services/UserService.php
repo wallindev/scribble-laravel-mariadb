@@ -7,14 +7,11 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserService implements UserServiceInterface {
-  // For API
-  // public function getAllUsers(): array
-  // For GUI
   public function getAllUsers(): Collection {
+    return User::all();
+
     // For API
     // return User::all()->toArray();
-    // For GUI
-    return User::all();
   }
 
   public function getUserById(int $id): ?User {
@@ -35,11 +32,6 @@ class UserService implements UserServiceInterface {
     return $user ? $user->delete() : false;
   }
 
-  /* public function isAdmin(int $id): bool {
-    // TODO: How get is_admin from db? Implement in User model? Is '$this' referring to the model?
-    $user = $this->getUserById($id);
-    dump('UserService, isAdmin() function, $user->is_admin:');
-    dump($user->is_admin);
-    return true;
-  } */
+  // For API
+  // public function getAllUsers(): array
 }
