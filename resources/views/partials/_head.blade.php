@@ -1,6 +1,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/img/scribble-bold.svg" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 @if (file_exists(public_path('hot')))
     @vite(['resources/css/app.styl', 'resources/js/app.js'])
 @else
