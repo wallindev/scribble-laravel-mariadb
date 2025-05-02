@@ -11,7 +11,6 @@ interface ArticleServiceInterface {
   public function createArticle(array $data): Article;
   public function updateArticle(int $id, array $data): bool;
   public function deleteArticle(int $id): bool;
-  // public function isAdmin(int $id): bool;
 
   // For API
   // public function getAllArticles(): array
