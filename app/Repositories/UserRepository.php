@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository implements UserRepositoryInterface {
   public function getAllUsers(): Collection {
+    return User::all();
+
     // For API
     // return User::all()->toArray();
-    // For GUI
-    return User::all();
   }
-  // For API
-  // public function getAllUsers(): array
 
   public function getUserById(int $id): ?User {
     return User::findOrFail($id);
@@ -34,11 +32,6 @@ class UserRepository implements UserRepositoryInterface {
     return $user ? $user->delete() : false;
   }
 
-  /* public function isAdmin(int $id): bool {
-    // TODO: How get is_admin from db? Implement in User model? Is '$this' referring to the model?
-    $user = $this->getUserById($id);
-    dump('UserRepository, isAdmin() function, $user->is_admin:');
-    dump($user->is_admin);
-    return true;
-  } */
+  // For API
+  // public function getAllUsers(): array
 }
