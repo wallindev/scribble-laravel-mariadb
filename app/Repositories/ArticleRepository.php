@@ -7,14 +7,11 @@ use App\Models\Article;
 use Illuminate\Database\Eloquent\Collection;
 
 class ArticleRepository implements ArticleRepositoryInterface {
-  // For API
-  // public function getAllArticles(): array
-  // For GUI
   public function getAllArticles(): Collection {
+    return Article::all();
+
     // For API
     // return Article::all()->toArray();
-    // For GUI
-    return Article::all();
   }
 
   public function getArticleById(int $id): ?Article {
@@ -34,4 +31,7 @@ class ArticleRepository implements ArticleRepositoryInterface {
     $article = $this->getArticleById($id);
     return $article ? $article->delete() : false;
   }
+
+  // For API
+  // public function getAllArticles(): array
 }
