@@ -12,9 +12,6 @@ class ArticleRequest extends FormRequest {
       'user_id' => 'required|integer|min:0|exists:users,id',
     ];
 
-    // dump('$rules_arr:');
-    // dd($rules_arr);
-
     return $rules_arr;
   }
 

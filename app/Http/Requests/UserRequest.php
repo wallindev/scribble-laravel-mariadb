@@ -28,9 +28,6 @@ class UserRequest extends FormRequest {
     $password && $rules_arr = [...$rules_arr, 'password' => $pass_rule];
     $confirm_password && $rules_arr = [...$rules_arr, 'confirm_password' => $conf_pass_rule];
 
-    // dump('$rules_arr:');
-    // dd($rules_arr);
-
     return $rules_arr;
   }
 
