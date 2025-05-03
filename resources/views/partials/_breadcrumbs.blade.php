@@ -1,8 +1,3 @@
-@php
-//print_r($breadcrumbs);
-//var_dump($breadcrumbs);
-//echo("<br>\n");
-@endphp
 @foreach ($breadcrumbs as $linkHref => $linkText)
   @if ($loop->last)
     {{ $linkText }}
