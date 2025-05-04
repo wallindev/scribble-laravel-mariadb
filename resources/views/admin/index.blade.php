@@ -2,6 +2,15 @@
 
 @section('content')
 <h2>Admin Start Page</h2>
+@if ($errors->any())
+<div class="user-msg text-danger bg-dark">
+  <ul>
+  @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+  @endforeach
+  </ul>
+</div>
+@endif
 <section>
 <table>
   <tbody>
