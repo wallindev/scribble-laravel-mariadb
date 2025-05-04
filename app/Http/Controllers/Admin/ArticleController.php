@@ -22,7 +22,6 @@ class ArticleController extends AdminController {
   }
 
   public function index(Request $request) {
-    $success = session('success');
     $articles = $this->articleRepository->getAllArticles();
 
     $title = 'Articles';
@@ -31,7 +30,7 @@ class ArticleController extends AdminController {
       '/admin' => 'Admin',
       '/admin/articles' => 'Articles'
     ];
-    return view('admin.articles.index', compact('success', 'articles', 'title', 'breadcrumbs'));
+    return view('admin.articles.index', compact('articles', 'title', 'breadcrumbs'));
 
     // For API
     // return response()->json($users);
@@ -41,7 +40,6 @@ class ArticleController extends AdminController {
   }
 
   public function show($id) {
-    $success = session('success');
     $article = $this->articleRepository->getArticleById($id);
 
     $title = 'Show Article';
@@ -51,7 +49,7 @@ class ArticleController extends AdminController {
       '/admin/articles' => 'Articles',
       "/admin/articles/$id" => "Article $id"
     ];
-    return view('admin.articles.show', compact('success', 'article', 'title', 'breadcrumbs'));
+    return view('admin.articles.show', compact('article', 'title', 'breadcrumbs'));
 
     // For API
     // return $article ? response()->json($article) : response()->json(['message' => 'Article not found'], 404);
@@ -59,6 +57,7 @@ class ArticleController extends AdminController {
 
   public function edit($id) {
     $article = $this->articleRepository->getArticleById($id);
+
     $title = 'Edit Article';
     $breadcrumbs = [
       ...$this->breadcrumbs,
