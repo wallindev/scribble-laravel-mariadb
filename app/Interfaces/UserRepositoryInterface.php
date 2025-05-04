@@ -11,7 +11,6 @@ interface UserRepositoryInterface {
   public function createUser(array $data): User;
   public function updateUser(int $id, array $data): bool;
   public function deleteUser(int $id): bool;
-  // public function isAdmin(int $id): bool;
 
   // For API
   // public function getAllUsers(): array
