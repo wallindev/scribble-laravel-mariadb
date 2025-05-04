@@ -20,7 +20,6 @@ class UserController extends AdminController {
   }
 
   public function index(Request $request) {
-    $success = session('success');
     $users = $this->userRepository->getAllUsers();
 
     $title = 'Users';
@@ -29,7 +28,7 @@ class UserController extends AdminController {
       '/admin' => 'Admin',
       '/admin/users' => 'Users'
     ];
-    return view('admin.users.index', compact('success', 'users', 'title', 'breadcrumbs'));
+    return view('admin.users.index', compact('users', 'title', 'breadcrumbs'));
 
     // For API
     // return response()->json($users);
@@ -39,7 +38,6 @@ class UserController extends AdminController {
   }
 
   public function show($id) {
-    $success = session('success');
     $user = $this->userRepository->getUserById($id);
 
     $title = 'Show User';
@@ -49,7 +47,7 @@ class UserController extends AdminController {
       '/admin/users' => 'Users',
       "/admin/users/$id" => "User $id"
     ];
-    return view('admin.users.show', compact('success', 'user', 'title', 'breadcrumbs'));
+    return view('admin.users.show', compact('user', 'title', 'breadcrumbs'));
 
     // For API
     // return $user ? response()->json($user) : response()->json(['message' => 'User not found'], 404);
@@ -57,6 +55,7 @@ class UserController extends AdminController {
 
   public function edit($id) {
     $user = $this->userRepository->getUserById($id);
+
     $title = 'Edit User';
     $breadcrumbs = [
       ...$this->breadcrumbs,
