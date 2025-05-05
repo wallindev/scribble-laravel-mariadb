@@ -2,8 +2,19 @@
 
 @section('content')
 <h2>Articles</h2>
-@if ($success)
-<div class="text-primary"><p>{{ $success }}</p></div>
+@if ($errors->any())
+<div class="user-msg text-danger bg-dark">
+  <ul>
+  @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+  @endforeach
+  </ul>
+</div>
+@endif
+@if (session('success'))
+<div class="user-msg text-success bg-dark">
+  {{ session('success') }}
+</div>
 @endif
 <section>
 <div style="margin: 1.5rem .5rem;"><a href="{{ route('articles.create') }}">Create Article</a></div>
