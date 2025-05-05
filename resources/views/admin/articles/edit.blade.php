@@ -11,7 +11,6 @@
   </ul>
 </div>
 @endif
-
 <section>
 <form action="{{ route('articles.update', $article->id) }}" method="POST">
   @csrf
