@@ -2,9 +2,9 @@
 
 @section('content')
 <h2>User Details</h2>
-@if ($success)
+@if (session('success'))
 <div class="user-msg text-success bg-dark">
-  <p>{{ $success }}</p>
+  {{ session('success') }}
 </div>
 @endif
 <section>
