@@ -1,11 +1,16 @@
 {
   "$schema": "https://getcomposer.org/schema.json",
-  "name": "laravel/laravel",
+  "name": "wallindev/scribble",
   "type": "project",
-  "description": "The skeleton application for the Laravel framework.",
+  "description": "Backend app for serving API and administrating users (and articles) for end-user frontend app",
   "keywords": [
+    "scribble",
     "laravel",
-    "framework"
+    "admin",
+    "authentication",
+    "backoffice",
+    "users",
+    "articles"
   ],
   "license": "MIT",
   "require": {
