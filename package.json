@@ -1,5 +1,7 @@
 {
+  "name": "scribble-laravel-react",
   "private": true,
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -14,5 +16,9 @@
   },
   "prettier": {
     "tabWidth": 2
+  },
+  "engines": {
+    "node": "22.14.0",
+    "npm": "11.2.0"
   }
 }
