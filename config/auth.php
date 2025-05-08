@@ -12,7 +12,7 @@ return [
   */
   'redirect_users_to' => env('AUTH_REDIRECT_USERS_TO', 'admin.index'),
   'redirect_guests_to' => env('AUTH_REDIRECT_GUESTS_TO', 'login.index'),
-  'redirect_after_login' => env('AUTH_REDIRECT_AFTER_LOGIN', 'home.index'),
+  'redirect_after_login' => env('AUTH_REDIRECT_AFTER_LOGIN', 'admin.index'),
 
   /*
   |--------------------------------------------------------------------------
