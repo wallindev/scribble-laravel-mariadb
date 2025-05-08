@@ -8,6 +8,7 @@
 /vendor
 .env
 .env.backup
+.env.development
 .env.staging
 .env.production
 .env.heroku
