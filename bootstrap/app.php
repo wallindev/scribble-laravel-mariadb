@@ -15,11 +15,17 @@ return Application::configure(basePath: dirname(__DIR__))
     health: '/up',
   )
   ->withMiddleware(function (Middleware $middleware) {
+    // Redirects authenticated users from "guest-only" areas (unauthenticated users)
     $middleware->redirectUsersTo('/admin');
+    // Redirects guests from "authenticated users-only" areas
     $middleware->redirectGuestsTo('/admin/login');
 
     $middleware->alias([
       'admin' => IsAdmin::class,
+      // These are basically empty versions of the Laravel middlewares,
+      // they extend the originals which makes it possible to
+      // override/customize the functionality from them
+      // that is used in the Laravel application.
       // 'auth' => Authenticate::class,
       // 'guest' => RedirectIfAuthenticated::class,
     ]);
