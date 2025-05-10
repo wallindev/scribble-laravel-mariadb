@@ -1,4 +1,4 @@
-# scribble-laravel-react
+# scribble-laravel-mariadb
 Backend is a Laravel/PHP server that provides API to a MariaDB database, and also serves the HTML page where the React app is run.
 
 At the moment the React SPA is a separate app (node-react-ts). The frontend of that app is going to be placed on top of this backend soon.
