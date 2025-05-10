@@ -30,7 +30,11 @@
         <td class="content">
           <select id="user_id" name="user_id">
           @foreach ($users as $user)
-            <option value="{{ $user->id }}" @selected($user->is_admin)>{{ $user->fullName }}</option>
+            @php
+              $selected = $user->id == auth('admin')->user()->id && $user->is_admin;
+              //echo("Is logged in and is admin: $selected<br>\n");
+            @endphp
+            <option value="{{ $user->id }}" @selected($selected)>{{ $user->fullName }}</option>
           @endforeach
           </select>
         </td>
