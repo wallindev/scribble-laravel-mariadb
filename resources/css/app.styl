@@ -240,13 +240,19 @@ h2
   margin-left .75rem
 
 a, a:visited
-  color #fff
+  color rgba(255, 255, 255, .95)
   text-decoration none
   border 0 none
   outline 0 none
 
-a:hover
-  color #ccc
+a:hover, a:focus:hover, a:focus-visible:hover
+  color rgba(204, 204, 204, .95)
+
+a:focus, a:focus-visible
+  color rgba(204, 204, 204 .75)
+  // color #cccccc80
+  // color rgba(204, 204, 204, .5)
+  // color hsl(0 0 80 / .5)
 
 p
   margin 0
