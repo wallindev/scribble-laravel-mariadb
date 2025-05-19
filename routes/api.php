@@ -3,12 +3,26 @@
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
+
+// Login (from React)
+
+Route::get('/login', function (Request $request) {
+  // echo('Logging in!');
+  // var_dump($request);
+  return response()->json(['message' => 'Hello, this is the API! =)']);
+});
+Route::post('/login', function (Request $request) {
+  // echo('Logging in!');
+  // var_dump($request);
+  return response()->json(['message' => 'Hello, this is the API! =)']);
+});
+
 
 // All Articles
 Route::get('/articles', function () {
